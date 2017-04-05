@@ -1,7 +1,10 @@
 let canvas;
 let ctx;
 let arenaImage;
-let roombaAvatar;
+let roombaRed;
+let roombaYellow;
+let roombaBlue;
+let roombaGreen;
 let socket;
 let hash;
 let roombas = {};
@@ -58,7 +61,10 @@ const keyUpHandler = (e) => {
 
 const init = () => {
   arenaImage = document.querySelector('#arena');
-  roombaAvatar = document.querySelector('#roomba');
+  roombaRed = document.querySelector('#roombared');
+  roombaYellow = document.querySelector('#roombayellow');
+  roombaBlue = document.querySelector('#roombablue');
+  roombaGreen = document.querySelector('#roombagreen');
   
   canvas = document.querySelector('#canvas');
   ctx = canvas.getContext('2d');
@@ -66,6 +72,7 @@ const init = () => {
   socket = io.connect();
   
   socket.on('joined', setUser);
+  socket.on('updatedMovement', update);
   socket.on('disconnected', removeUser);
   
   document.body.addEventListener('keydown', keyDownHandler);

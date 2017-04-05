@@ -45,13 +45,13 @@ const updatePosition = () => {
   if(roomba.moveUp && roomba.destY > 0) {
     roomba.destY -= 2;
   }
-  if(roomba.moveDown && roomba.destY < 400) {
+  if(roomba.moveDown && roomba.destY < 500) {
     roomba.destY += 2;
   }
   if(roomba.moveLeft && roomba.destX > 0) {
     roomba.destX -= 2;
   }
-  if(roomba.moveRight && roomba.destX < 400) {
+  if(roomba.moveRight && roomba.destX < 500) {
     roomba.destX += 2;
   }
   

@@ -21,8 +21,23 @@ var redraw = function redraw(time) {
     roomba.x = lerp(roomba.prevX, roomba.destX, roomba.alpha);
     roomba.y = lerp(roomba.prevY, roomba.destY, roomba.alpha);
 
-    ctx.drawImage(roombaAvatar, roomba.x, roomba.y);
+    switch (roomba.playerNum) {
+      case 1:
+        ctx.drawImage(roombared, roomba.x, roomba.y);
+        break;
+      case 2:
+        ctx.drawImage(roombayellow, roomba.x, roomba.y);
+        break;
+      case 3:
+        ctx.drawImage(roombablue, roomba.x, roomba.y);
+        break;
+      case 4:
+        ctx.drawImage(roombagreen, roomba.x, roomba.y);
+        break;
+    }
   }
+
+  ctx.filter = "none";
 
   requestAnimationFrame(redraw);
 };
@@ -31,7 +46,10 @@ var redraw = function redraw(time) {
 var canvas = void 0;
 var ctx = void 0;
 var arenaImage = void 0;
-var roombaAvatar = void 0;
+var roombaRed = void 0;
+var roombaYellow = void 0;
+var roombaBlue = void 0;
+var roombaGreen = void 0;
 var socket = void 0;
 var hash = void 0;
 var roombas = {};
@@ -88,7 +106,10 @@ var keyUpHandler = function keyUpHandler(e) {
 
 var init = function init() {
   arenaImage = document.querySelector('#arena');
-  roombaAvatar = document.querySelector('#roomba');
+  roombaRed = document.querySelector('#roombared');
+  roombaYellow = document.querySelector('#roombayellow');
+  roombaBlue = document.querySelector('#roombablue');
+  roombaGreen = document.querySelector('#roombagreen');
 
   canvas = document.querySelector('#canvas');
   ctx = canvas.getContext('2d');
@@ -96,6 +117,7 @@ var init = function init() {
   socket = io.connect();
 
   socket.on('joined', setUser);
+  socket.on('updatedMovement', update);
   socket.on('disconnected', removeUser);
 
   document.body.addEventListener('keydown', keyDownHandler);
@@ -152,13 +174,13 @@ var updatePosition = function updatePosition() {
   if (roomba.moveUp && roomba.destY > 0) {
     roomba.destY -= 2;
   }
-  if (roomba.moveDown && roomba.destY < 400) {
+  if (roomba.moveDown && roomba.destY < 500) {
     roomba.destY += 2;
   }
   if (roomba.moveLeft && roomba.destX > 0) {
     roomba.destX -= 2;
   }
-  if (roomba.moveRight && roomba.destX < 400) {
+  if (roomba.moveRight && roomba.destX < 500) {
     roomba.destX += 2;
   }
 
