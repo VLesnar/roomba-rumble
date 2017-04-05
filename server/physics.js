@@ -6,8 +6,8 @@ const checkFall = () => {
   for (let i = 0; i < keys.length; i++) {
     const roomba = roombas[keys[i]];
 
-    if ((roomba.x + roomba.radius) < 100 || (roomba.x + roomba.radius) > 500 ||
-       (roomba.y + roomba.radius) < 100 || (roomba.y + roomba.radius) > 500) {
+    if ((roomba.position.x + roomba.radius) < 100 || (roomba.position.x + roomba.radius) > 500 ||
+       (roomba.position.y + roomba.radius) < 100 || (roomba.position.y + roomba.radius) > 500) {
       // TODO - Add death logic
     }
   }
@@ -16,18 +16,17 @@ const checkFall = () => {
 const checkCollision = (hash) => {
   const roomba1 = roombas[hash];
   const keys = Object.keys(roombas);
-  
-  for(i = 0; i < keys.length; i++) {
+
+  for (let i = 0; i < keys.length; i++) {
     const roomba2 = roombas[keys[i]];
     if (roomba1 === undefined || roomba1.hash === roomba2.hash) {
       return;
-    } else { 
-      let distX = roomba1.x - roomba2.x;
-      let distY = roomba1.y - roomba2.y;
-      let radius = roomba1.radius + roomba2.radius;
-      if((distX * distX + distY * distY) <= radius * radius) {
-        // TODO - Add collision logic
-      }
+    }
+    const distX = roomba1.position.x - roomba2.position.x;
+    const distY = roomba1.position.y - roomba2.position.y;
+    const radius = roomba1.radius + roomba2.radius;
+    if (((distX * distX) + (distY * distY)) <= radius * radius) {
+      // TODO - Add collision logic
     }
   }
 };
@@ -46,9 +45,9 @@ setInterval(() => {
 
 setInterval(() => {
   const keys = Object.keys(roombas);
-  
+
   for (let i = 0; i < keys.length; i++) {
-    if(!(i + 2 > keys.length)) {
+    if (!(i + 2 > keys.length)) {
       const roomba1 = roombas[keys[i]];
       const roomba2 = roombas[keys[i + 1]];
       checkCollision(roomba1, roomba2);

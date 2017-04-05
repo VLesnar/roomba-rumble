@@ -18,21 +18,21 @@ var redraw = function redraw(time) {
       roomba.alpha += 0.05;
     }
 
-    roomba.x = lerp(roomba.prevX, roomba.destX, roomba.alpha);
-    roomba.y = lerp(roomba.prevY, roomba.destY, roomba.alpha);
+    roomba.position.x = lerp(roomba.prevPosition.x, roomba.destPosition.x, roomba.alpha);
+    roomba.position.y = lerp(roomba.prevPosition.y, roomba.destPosition.y, roomba.alpha);
 
     switch (roomba.playerNum) {
       case 1:
-        ctx.drawImage(roombared, roomba.x, roomba.y);
+        ctx.drawImage(roombared, roomba.position.x, roomba.position.y);
         break;
       case 2:
-        ctx.drawImage(roombayellow, roomba.x, roomba.y);
+        ctx.drawImage(roombayellow, roomba.position.x, roomba.position.y);
         break;
       case 3:
-        ctx.drawImage(roombablue, roomba.x, roomba.y);
+        ctx.drawImage(roombablue, roomba.position.x, roomba.position.y);
         break;
       case 4:
-        ctx.drawImage(roombagreen, roomba.x, roomba.y);
+        ctx.drawImage(roombagreen, roomba.position.x, roomba.position.y);
         break;
       default:
         break;
@@ -144,12 +144,9 @@ var update = function update(data) {
   }
 
   var roomba = roombas[data.hash];
-  roomba.prevX = data.prevX;
-  roomba.prevY = data.prevY;
-  roomba.destX = data.destX;
-  roomba.destY = data.destY;
-  roomba.cx = data.cx;
-  roomba.cy = data.cy;
+  roomba.prevPosition = data.prevPosition;
+  roomba.destPosition = data.destPosition;
+  roomba.center = data.center;
   roomba.moveLeft = data.moveLeft;
   roomba.moveRight = data.moveRight;
   roomba.moveUp = data.moveUp;
@@ -172,22 +169,21 @@ var removeUser = function removeUser(data) {
 var updatePosition = function updatePosition() {
   var roomba = roombas[hash];
 
-  roomba.prevX = roomba.x;
-  roomba.prevY = roomba.y;
-  roomba.cx = roomba.x + 30;
-  roomba.cy = roomba.y + 30;
+  roomba.prevPosition = roomba.position;
+  roomba.center.x = roomba.position.x + 30;
+  roomba.center.y = roomba.position.y + 30;
 
-  if (roomba.moveUp && roomba.destY > 0) {
-    roomba.destY -= 2;
+  if (roomba.moveUp && roomba.destPosition.y > 0) {
+    roomba.destPosition.y -= 2;
   }
-  if (roomba.moveDown && roomba.destY < 540) {
-    roomba.destY += 2;
+  if (roomba.moveDown && roomba.destPosition.y < 540) {
+    roomba.destPosition.y += 2;
   }
-  if (roomba.moveLeft && roomba.destX > 0) {
-    roomba.destX -= 2;
+  if (roomba.moveLeft && roomba.destPosition.x > 0) {
+    roomba.destPosition.x -= 2;
   }
-  if (roomba.moveRight && roomba.destX < 540) {
-    roomba.destX += 2;
+  if (roomba.moveRight && roomba.destPosition.x < 540) {
+    roomba.destPosition.x += 2;
   }
 
   roomba.alpha = 0.05;

@@ -1,6 +1,7 @@
 const xxh = require('xxhashjs');
 const Roomba = require('./classes/Roomba.js');
 const physics = require('./physics.js');
+const Victor = require('victor');
 
 const roombas = {};
 
@@ -18,31 +19,30 @@ const setupSockets = (ioServer) => {
 
     const idString = `${socket.id}${new Date().getTime()}`;
     const hash = xxh.h32(idString, 0xCAFEBABE).toString(16);
-    let x = 0;
-    let y = 0;
+    const position = new Victor(0, 0);
 
     switch (playerNum) {
       case 1:
-        x = 110;
-        y = 110;
+        position.x = 110;
+        position.y = 110;
         break;
       case 2:
-        x = 430;
-        y = 110;
+        position.x = 430;
+        position.y = 110;
         break;
       case 3:
-        x = 110;
-        y = 430;
+        position.x = 110;
+        position.y = 430;
         break;
       case 4:
-        x = 430;
-        y = 430;
+        position.x = 430;
+        position.y = 430;
         break;
       default:
         break;
     }
 
-    roombas[hash] = new Roomba(hash, playerNum, x, y);
+    roombas[hash] = new Roomba(hash, playerNum, position);
     playerNum++;
 
     if (playerNum > 4) {
@@ -67,7 +67,7 @@ const setupSockets = (ioServer) => {
 
       io.sockets.in(`room${socket.roomNum}`).emit('updatedMovement', roombas[socket.hash]);
     });
-    
+
     setInterval(() => {
       physics.checkCollision(socket.hash);
     }, 20);

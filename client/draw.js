@@ -16,21 +16,21 @@ const redraw = (time) => {
       roomba.alpha += 0.05;
     }
     
-    roomba.x = lerp(roomba.prevX, roomba.destX, roomba.alpha);
-    roomba.y = lerp(roomba.prevY, roomba.destY, roomba.alpha);
+    roomba.position.x = lerp(roomba.prevPosition.x, roomba.destPosition.x, roomba.alpha);
+    roomba.position.y = lerp(roomba.prevPosition.y, roomba.destPosition.y, roomba.alpha);
     
     switch (roomba.playerNum) {
       case 1:
-        ctx.drawImage(roombared, roomba.x, roomba.y);
+        ctx.drawImage(roombared, roomba.position.x, roomba.position.y);
         break;
       case 2:
-        ctx.drawImage(roombayellow, roomba.x, roomba.y);
+        ctx.drawImage(roombayellow, roomba.position.x, roomba.position.y);
         break;
       case 3:
-        ctx.drawImage(roombablue, roomba.x, roomba.y);
+        ctx.drawImage(roombablue, roomba.position.x, roomba.position.y);
         break;
       case 4:
-        ctx.drawImage(roombagreen, roomba.x, roomba.y);
+        ctx.drawImage(roombagreen, roomba.position.x, roomba.position.y);
         break;
       default:
         break;
