@@ -8,6 +8,8 @@ class Roomba {
     this.prevY = y;
     this.destX = x;
     this.destY = y;
+    this.cx = x + 30;
+    this.cy = y + 30;
     this.radius = 30;
     this.alpha = 0;
     this.moveLeft = false;

@@ -67,6 +67,10 @@ const setupSockets = (ioServer) => {
 
       io.sockets.in(`room${socket.roomNum}`).emit('updatedMovement', roombas[socket.hash]);
     });
+    
+    setInterval(() => {
+      physics.checkCollision(socket.hash);
+    }, 20);
 
     socket.on('disconnect', () => {
       io.sockets.in(`room${socket.roomNum}`).emit('disconnected', roombas[socket.hash]);

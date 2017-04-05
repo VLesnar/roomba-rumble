@@ -17,6 +17,8 @@ const update = (data) => {
   roomba.prevY = data.prevY;
   roomba.destX = data.destX;
   roomba.destY = data.destY;
+  roomba.cx = data.cx;
+  roomba.cy = data.cy;
   roomba.moveLeft = data.moveLeft;
   roomba.moveRight = data.moveRight;
   roomba.moveUp = data.moveUp;
@@ -41,17 +43,19 @@ const updatePosition = () => {
   
   roomba.prevX = roomba.x;
   roomba.prevY = roomba.y;
+  roomba.cx = roomba.x + 30;
+  roomba.cy = roomba.y + 30;
   
   if(roomba.moveUp && roomba.destY > 0) {
     roomba.destY -= 2;
   }
-  if(roomba.moveDown && roomba.destY < 500) {
+  if(roomba.moveDown && roomba.destY < 540) {
     roomba.destY += 2;
   }
   if(roomba.moveLeft && roomba.destX > 0) {
     roomba.destX -= 2;
   }
-  if(roomba.moveRight && roomba.destX < 500) {
+  if(roomba.moveRight && roomba.destX < 540) {
     roomba.destX += 2;
   }
   

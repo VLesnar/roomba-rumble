@@ -1,5 +1,3 @@
-//const sockets = require('./sockets.js');
-
 let roombas = {};
 
 const checkFall = () => {
@@ -10,7 +8,26 @@ const checkFall = () => {
 
     if ((roomba.x + roomba.radius) < 100 || (roomba.x + roomba.radius) > 500 ||
        (roomba.y + roomba.radius) < 100 || (roomba.y + roomba.radius) > 500) {
-      console.log('Success');
+      // TODO - Add death logic
+    }
+  }
+};
+
+const checkCollision = (hash) => {
+  const roomba1 = roombas[hash];
+  const keys = Object.keys(roombas);
+  
+  for(i = 0; i < keys.length; i++) {
+    const roomba2 = roombas[keys[i]];
+    if (roomba1 === undefined || roomba1.hash === roomba2.hash) {
+      return;
+    } else { 
+      let distX = roomba1.x - roomba2.x;
+      let distY = roomba1.y - roomba2.y;
+      let radius = roomba1.radius + roomba2.radius;
+      if((distX * distX + distY * distY) <= radius * radius) {
+        // TODO - Add collision logic
+      }
     }
   }
 };
@@ -27,5 +44,18 @@ setInterval(() => {
   checkFall();
 }, 20);
 
+setInterval(() => {
+  const keys = Object.keys(roombas);
+  
+  for (let i = 0; i < keys.length; i++) {
+    if(!(i + 2 > keys.length)) {
+      const roomba1 = roombas[keys[i]];
+      const roomba2 = roombas[keys[i + 1]];
+      checkCollision(roomba1, roomba2);
+    }
+  }
+}, 20);
+
 module.exports.setRoombaList = setRoombaList;
 module.exports.setRoomba = setRoomba;
+module.exports.checkCollision = checkCollision;
