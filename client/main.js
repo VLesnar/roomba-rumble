@@ -73,6 +73,7 @@ const init = () => {
   
   socket.on('joined', setUser);
   socket.on('updatedMovement', update);
+  socket.on('fellOff', reset);
   socket.on('disconnected', removeUser);
   
   document.body.addEventListener('keydown', keyDownHandler);

@@ -9,6 +9,10 @@ let io;
 let roomCount = 0;
 let playerNum = 1;
 
+const handleFall = (roomba) => {
+  io.sockets.in(`room${roomba.roomNum}`).emit('fellOff', roomba);
+};
+
 const setupSockets = (ioServer) => {
   io = ioServer;
 
@@ -42,7 +46,7 @@ const setupSockets = (ioServer) => {
         break;
     }
 
-    roombas[hash] = new Roomba(hash, playerNum, position);
+    roombas[hash] = new Roomba(hash, playerNum, roomCount, position);
     playerNum++;
 
     if (playerNum > 4) {
@@ -85,3 +89,4 @@ const setupSockets = (ioServer) => {
 };
 
 module.exports.setupSockets = setupSockets;
+module.exports.handleFall = handleFall;

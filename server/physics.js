@@ -1,3 +1,6 @@
+const Victor = require('victor');
+const sockets = require('./sockets.js');
+
 let roombas = {};
 
 const checkFall = () => {
@@ -8,7 +11,28 @@ const checkFall = () => {
 
     if ((roomba.position.x + roomba.radius) < 100 || (roomba.position.x + roomba.radius) > 500 ||
        (roomba.position.y + roomba.radius) < 100 || (roomba.position.y + roomba.radius) > 500) {
-      // TODO - Add death logic
+      console.log("Dead - Resetting position while in development");
+      switch(roomba.playerNum) {
+        case 1:
+          roomba.position.x = 110;
+          roomba.position.y = 110;
+          break;
+        case 2:
+          roomba.position.x = 430;
+          roomba.position.y = 110;
+          break;
+        case 3:
+          roomba.position.x = 110;
+          roomba.position.y = 430;
+          break;
+        case 4:
+          roomba.position.x = 430;
+          roomba.position.y = 430;
+          break;
+        default:
+          break;
+      }
+      sockets.handleFall(roomba);
     }
   }
 };
