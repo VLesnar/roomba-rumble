@@ -1,4 +1,3 @@
-const Victor = require('victor');
 const sockets = require('./sockets.js');
 
 let roombas = {};
