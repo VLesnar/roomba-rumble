@@ -39,7 +39,7 @@ const checkFall = () => {
 const checkCollision = (hash) => {
   const roomba1 = roombas[hash];
   const keys = Object.keys(roombas);
-
+  
   for (let i = 0; i < keys.length; i++) {
     const roomba2 = roombas[keys[i]];
     if (roomba1 === undefined || roomba1.hash === roomba2.hash) {
@@ -50,7 +50,18 @@ const checkCollision = (hash) => {
     const radius = roomba1.radius + roomba2.radius;
     if (((distX * distX) + (distY * distY)) <= radius * radius) {
       // TODO - Add collision logic
-    }
+      roomba1.velocity.x = -roomba1.velocity.x;
+      roomba1.velocity.y = -roomba1.velocity.y;
+      
+      roomba2.velocity.x = -roomba2.velocity.x;
+      roomba2.velocity.y = -roomba2.velocity.y;
+      
+      const data = {
+        player: roomba1,
+        opponent: roomba2,
+      };
+      sockets.handleCollision(data);
+    }  
   }
 };
 

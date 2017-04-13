@@ -13,6 +13,14 @@ const handleFall = (roomba) => {
   io.sockets.in(`room${roomba.roomNum}`).emit('fellOff', roomba);
 };
 
+const handleCollision = (data) => {
+  const roomba1 = data.player;
+  const roomba2 = data.opponent;
+  
+  io.sockets.in(`room${roomba1.roomNum}`).emit('updatedMovement', roomba1);
+  io.sockets.in(`room${roomba2.roomNum}`).emit('updatedMovement', roomba2);
+};
+
 const setupSockets = (ioServer) => {
   io = ioServer;
 
@@ -90,3 +98,4 @@ const setupSockets = (ioServer) => {
 
 module.exports.setupSockets = setupSockets;
 module.exports.handleFall = handleFall;
+module.exports.handleCollision = handleCollision;

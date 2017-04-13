@@ -75,40 +75,27 @@ const updatePosition = () => {
   roomba.center.x = roomba.position.x + 30;
   roomba.center.y = roomba.position.y + 30;
   
+  roomba.acceleration.x += 1;
+  roomba.acceleration.y += 1;
+
+  
   if(roomba.velocity.x > roomba.maxSpeed) {
     roomba.velocity.x = roomba.maxSpeed;
   } else {
     roomba.velocity.x += roomba.acceleration.x;
   }
   
-  if(!(roomba.moveLeft) && !(roomba.moveRight)) {
-    roomba.velocity.x -= roomba.acceleration.x * 5;
-    if(roomba.velocity.x < 0) {
-      roomba.velocity.x = 0;
-    }
-  } else { 
-    if(roomba.velocity.x > roomba.maxSpeed) {
-      roomba.velocity.x = roomba.maxSpeed;
-    } else {
-        roomba.velocity.x += roomba.acceleration.x;
-    }
+  if(roomba.velocity.y > roomba.maxSpeed) {
+    roomba.velocity.y = roomba.maxSpeed;
+  } else {
+    roomba.velocity.y += roomba.acceleration.y;
   }
   
-  if(!(roomba.moveUp) && !(roomba.moveDown)) {
-    roomba.velocity.y -= roomba.acceleration.y * 5;
-    if(roomba.velocity.y < 0) {
-      roomba.velocity.y = 0;
-    }
-  } else { 
-    if(roomba.velocity.y > roomba.maxSpeed) {
-      roomba.velocity.y = roomba.maxSpeed;
-    } else {
-        roomba.velocity.y += roomba.acceleration.y;
-    }
-  }
+  roomba.acceleration.x = 0.03;
+  roomba.acceleration.y = 0.03;
   
-  console.log(roomba.velocity.y);
-  
+  console.log(`x: ${roomba.velocity.x} y: ${roomba.velocity.y}`);
+
   if(roomba.moveUp && roomba.destPosition.y > 0) {
     roomba.destPosition.y -= roomba.velocity.y;
   }
