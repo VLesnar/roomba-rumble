@@ -75,6 +75,18 @@ const updatePosition = () => {
   roomba.center.x = roomba.position.x + 30;
   roomba.center.y = roomba.position.y + 30;
   
+  if(roomba.velocity.x > roomba.maxSpeed) {
+    roomba.velocity.x = roomba.maxSpeed;
+  } else {
+    roomba.velocity.x += roomba.acceleration.x;
+  }
+  
+  if(roomba.acceleration.y > roomba.maxSpeed) {
+    roomba.acceleration.y = roomba.maxSpeed;
+  } else {
+      roomba.velocity.y += roomba.acceleration.y;
+  }
+  
   if(roomba.moveUp && roomba.destPosition.y > 0) {
     roomba.destPosition.y -= roomba.velocity.y;
   }
