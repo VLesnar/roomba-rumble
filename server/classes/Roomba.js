@@ -10,8 +10,8 @@ class Roomba {
     this.center = new Victor(position.x + 30, position.y + 30);
     this.radius = 30;
     this.velocity = new Victor(0, 0);
-    this.acceleration = new Victor(0.008, 0.008);
-    this.maxSpeed = 2;
+    this.acceleration = new Victor(0.03, 0.03);
+    this.maxSpeed = 3;
     this.alpha = 0;
     this.moveLeft = false;
     this.moveRight = false;

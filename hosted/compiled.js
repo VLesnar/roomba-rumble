@@ -213,11 +213,33 @@ var updatePosition = function updatePosition() {
     roomba.velocity.x += roomba.acceleration.x;
   }
 
-  if (roomba.acceleration.y > roomba.maxSpeed) {
-    roomba.acceleration.y = roomba.maxSpeed;
+  if (!roomba.moveLeft && !roomba.moveRight) {
+    roomba.velocity.x -= roomba.acceleration.x * 5;
+    if (roomba.velocity.x < 0) {
+      roomba.velocity.x = 0;
+    }
   } else {
-    roomba.velocity.y += roomba.acceleration.y;
+    if (roomba.velocity.x > roomba.maxSpeed) {
+      roomba.velocity.x = roomba.maxSpeed;
+    } else {
+      roomba.velocity.x += roomba.acceleration.x;
+    }
   }
+
+  if (!roomba.moveUp && !roomba.moveDown) {
+    roomba.velocity.y -= roomba.acceleration.y * 5;
+    if (roomba.velocity.y < 0) {
+      roomba.velocity.y = 0;
+    }
+  } else {
+    if (roomba.velocity.y > roomba.maxSpeed) {
+      roomba.velocity.y = roomba.maxSpeed;
+    } else {
+      roomba.velocity.y += roomba.acceleration.y;
+    }
+  }
+
+  console.log(roomba.velocity.y);
 
   if (roomba.moveUp && roomba.destPosition.y > 0) {
     roomba.destPosition.y -= roomba.velocity.y;
