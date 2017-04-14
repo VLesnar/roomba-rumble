@@ -5,21 +5,22 @@ let roombas = {};
 // If the players are colliding, move the players
 // Originally supposed to simulate a bounce, discarded because I'm bad at physics...
 // For now...
-const movePlayers = (self, opp) => {
+const movePlayers = (slf, opp) => {
+  const self = slf;
   // If the opposing player comes from a direction, move the player along the same direction
-  if(opp.moveLeft) {
+  if (opp.moveLeft) {
     self.destX -= 10;
     self.posX -= 10;
   }
-  if(opp.moveRight) {
+  if (opp.moveRight) {
     self.destX += 10;
     self.posX += 10;
   }
-  if(opp.moveUp) {
+  if (opp.moveUp) {
     self.destY -= 10;
     self.posY -= 10;
   }
-  if(opp.moveDown) {
+  if (opp.moveDown) {
     self.destY += 10;
     self.posY += 10;
   }
@@ -33,7 +34,7 @@ const checkFall = () => {
 
   for (let i = 0; i < keys.length; i++) {
     const roomba = roombas[keys[i]];
-    
+
     // Does the circle leave the square?
     if ((roomba.posX + roomba.radius) < 100 || (roomba.posX + roomba.radius) > 500 ||
        (roomba.posY + roomba.radius) < 100 || (roomba.posY + roomba.radius) > 500) {
@@ -46,20 +47,20 @@ const checkFall = () => {
 const checkCollision = (hash) => {
   const roomba1 = roombas[hash];
   const keys = Object.keys(roombas);
-  
+
   for (let i = 0; i < keys.length; i++) {
     const roomba2 = roombas[keys[i]];
     if (roomba1 === undefined || roomba1.hash === roomba2.hash) {
       return;
     }
-    
+
     // Are two circles intersecting?
     const distX = roomba1.posX - roomba2.posX;
     const distY = roomba1.posY - roomba2.posY;
     const radius = roomba1.radius + roomba2.radius;
     if (((distX * distX) + (distY * distY)) <= radius * radius) {
       movePlayers(roomba1, roomba2);
-    }  
+    }
   }
 };
 

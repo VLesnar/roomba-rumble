@@ -23,17 +23,17 @@ const setupSockets = (ioServer) => {
 
   io.on('connection', (sock) => {
     const socket = sock;
-    
+
     socket.join(`room${roomCount}`);
-    
+
     const idString = `${socket.id}${new Date().getTime()}`;
     const hash = xxh.h32(idString, 0xCAFEBABE).toString(16);
-    
+
     socket.hash = hash;
-    
+
     let posX = 0;
     let posY = 0;
-    
+
     // Setup roomba position based on their player number
     switch (playerNum) {
       case 1:
@@ -55,20 +55,20 @@ const setupSockets = (ioServer) => {
       default:
         break;
     }
-    
+
     roombas[hash] = new Roomba(hash, playerNum, roomCount, posX, posY);
     playerNum++;  // Increment for next player
     socket.roomNum = roomCount; // Store what room this socket is in
-    
+
     // If the player number is greater than four, the max player count for a room has been reached;
     // Increment the room number and set the player number back to 1
-    if(playerNum > 4) {
+    if (playerNum > 4) {
       roomCount++;
       playerNum = 1;
     }
-    
+
     socket.emit('joined', roombas[hash]);
-    
+
     socket.on('movementUpdate', (data) => {
       roombas[socket.hash] = data;
       roombas[socket.hash].lastUpdate = new Date().getTime();
@@ -77,18 +77,18 @@ const setupSockets = (ioServer) => {
 
       io.sockets.in(`room${socket.roomNum}`).emit('updatedMovement', roombas[socket.hash]);
     });
-    
+
     setInterval(() => {
       physics.checkCollision(socket.hash);
     }, 20);
-    
+
     socket.on('disconnect', () => {
       io.sockets.in(`room${socket.roomNum}`).emit('disconnected', roombas[socket.hash]);
-      
+
       delete roombas[socket.hash];
-      
+
       physics.setRoombaList(roombas);
-      
+
       socket.leave(`room${socket.roomNum}`);
     });
   });
